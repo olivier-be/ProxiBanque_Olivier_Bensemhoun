@@ -1,8 +1,6 @@
 package com.example.proxibanque_olivier_bensemhoun.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +24,8 @@ public class Agence {
 
     private Date date;
 
-    /*
-    @OneToOne
+
+    @OneToOne()
     private Director director;
 
 
@@ -41,7 +39,7 @@ public class Agence {
         this.director = director;
 
     }
-    */
+
 
     public Agence(String agenceId, Date date) {
         this.agenceId = agenceId;

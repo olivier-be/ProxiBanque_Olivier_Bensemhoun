@@ -1,6 +1,9 @@
 package com.example.proxibanque_olivier_bensemhoun.service;
 
 import com.example.proxibanque_olivier_bensemhoun.model.Agence;
+import com.example.proxibanque_olivier_bensemhoun.model.Client;
+import com.example.proxibanque_olivier_bensemhoun.model.Director;
+import com.example.proxibanque_olivier_bensemhoun.model.Employee;
 import com.example.proxibanque_olivier_bensemhoun.repository.AgenceRepo;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +41,30 @@ public class AgenceService {
 
     public List<Agence> getAgence() {
         return agenceRepo.findAll();
+    }
+
+    public Agence setDirector(long agenceId, Director director) {
+         var t = agenceRepo.findById(agenceId);
+        if (t.isPresent()) {
+             Agence res=  t.get();
+             res.setDirector(director);
+            agenceRepo.save(res);
+            return res;
+
+        }
+        return null;
+    }
+
+    public Boolean addEmployee(long agenceId, Employee employee) {
+        var t = agenceRepo.findById(agenceId);
+        if (t.isPresent()) {
+             var l = t.get().getAdvisor();
+             l.add(employee);
+             var res = t.get();
+             res.setAdvisor(l);
+             agenceRepo.save(res);
+        }
+        return t.isPresent();
     }
 
 
