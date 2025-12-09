@@ -1,5 +1,6 @@
 package com.example.proxibanque_olivier_bensemhoun.service;
 
+import com.example.proxibanque_olivier_bensemhoun.Response.DirectorResponse;
 import com.example.proxibanque_olivier_bensemhoun.model.Client;
 import com.example.proxibanque_olivier_bensemhoun.model.Director;
 import com.example.proxibanque_olivier_bensemhoun.repository.ClientRepo;
@@ -40,6 +41,21 @@ public class DirectorService {
     public List<Director> getDirector() {
         return agenceRepo.findAll();
     }
+
+    public DirectorResponse getDirectorResponse(Director director) {
+        if (director == null)
+        {
+            return null;
+        }
+        Long id = null;
+        if (director.getAgence() != null)
+        {
+            id = director.getAgence().getId();
+        }
+        return new DirectorResponse(director.getId(), director.getNom(),id);
+
+    }
+
 
 
 }

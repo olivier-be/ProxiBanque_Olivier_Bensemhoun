@@ -1,6 +1,9 @@
 package com.example.proxibanque_olivier_bensemhoun.service;
 
+import com.example.proxibanque_olivier_bensemhoun.Response.DirectorResponse;
+import com.example.proxibanque_olivier_bensemhoun.Response.EmployeeResponse;
 import com.example.proxibanque_olivier_bensemhoun.model.Agence;
+import com.example.proxibanque_olivier_bensemhoun.model.Director;
 import com.example.proxibanque_olivier_bensemhoun.model.Employee;
 import com.example.proxibanque_olivier_bensemhoun.repository.AgenceRepo;
 import com.example.proxibanque_olivier_bensemhoun.repository.EmployeeRepo;
@@ -42,5 +45,19 @@ public class EmployeeService {
         return agenceRepo.findAll();
     }
 
+    //convert to DTO
+    public EmployeeResponse getEmployeeResponse(Employee employee) {
+        if (employee == null)
+        {
+            return null;
+        }
+        Long id = null;
+        if (employee.getAgence() != null)
+        {
+            id = employee.getAgence().getId();
+        }
+        return new EmployeeResponse(employee.getId(), employee.getNom(),id);
+
+    }
 
 }

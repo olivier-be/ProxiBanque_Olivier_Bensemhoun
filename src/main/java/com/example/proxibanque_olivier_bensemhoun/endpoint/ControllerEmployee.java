@@ -1,9 +1,8 @@
 package com.example.proxibanque_olivier_bensemhoun.endpoint;
 
 
-import com.example.proxibanque_olivier_bensemhoun.model.Director;
+import com.example.proxibanque_olivier_bensemhoun.Response.EmployeeResponse;
 import com.example.proxibanque_olivier_bensemhoun.model.Employee;
-import com.example.proxibanque_olivier_bensemhoun.service.DirectorService;
 import com.example.proxibanque_olivier_bensemhoun.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,24 +13,24 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class ControllerEmployee {
-    private final EmployeeService directorService;
+    private final EmployeeService employeeService;
 
     @GetMapping("/employee")
-    List<Employee> getClient()
+    List<EmployeeResponse> getClient()
     {
-        return directorService.getEmployee();
+        return employeeService.getEmployee().stream().map(a -> employeeService.getEmployeeResponse(a)).toList();
     }
 
 
     @PostMapping("/employee")
     void saveAgence(@RequestBody Employee director)
     {
-        directorService.saveEmployee(director);
+        employeeService.saveEmployee(director);
     }
 
     @GetMapping("/employee/{id}")
-    ResponseEntity<Employee> getIdAgence(@PathVariable long id)
+    ResponseEntity<EmployeeResponse> getIdAgence(@PathVariable long id)
     {
-        return directorService.getEmployeeId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return employeeService.getEmployeeId(id).map(a -> employeeService.getEmployeeResponse(a)).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }

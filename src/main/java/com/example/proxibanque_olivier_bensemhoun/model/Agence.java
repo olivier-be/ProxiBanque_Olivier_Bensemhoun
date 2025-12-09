@@ -25,11 +25,12 @@ public class Agence {
     private Date date;
 
 
-    @OneToOne()
+    @OneToOne
+    @JoinColumn(name = "director_id")
     private Director director;
 
 
-    @OneToMany()
+    @OneToMany(mappedBy = "agence")
     private Set<Employee> advisor;
 
     Agence(String agenceId, Date date, Set<Employee> advisor, Director director) {

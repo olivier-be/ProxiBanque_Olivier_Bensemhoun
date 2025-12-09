@@ -1,6 +1,7 @@
 package com.example.proxibanque_olivier_bensemhoun.endpoint;
 
 
+import com.example.proxibanque_olivier_bensemhoun.Response.DirectorResponse;
 import com.example.proxibanque_olivier_bensemhoun.model.Client;
 import com.example.proxibanque_olivier_bensemhoun.model.Director;
 import com.example.proxibanque_olivier_bensemhoun.service.DirectorService;
@@ -16,9 +17,10 @@ public class ControllerDirector {
     private final DirectorService directorService;
 
     @GetMapping("/director")
-    List<Director> getClient()
+    List<DirectorResponse> getClient()
     {
-        return directorService.getDirector();
+
+        return directorService.getDirector().stream().map(  a->directorService.getDirectorResponse(a)).toList() ;
     }
 
 
@@ -29,8 +31,8 @@ public class ControllerDirector {
     }
 
     @GetMapping("/director/{id}")
-    ResponseEntity<Director> getIdAgence(@PathVariable long id)
+    ResponseEntity<DirectorResponse> getIdAgence(@PathVariable long id)
     {
-        return directorService.getDirectorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return directorService.getDirectorId(id).map(a->directorService.getDirectorResponse(a)).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }

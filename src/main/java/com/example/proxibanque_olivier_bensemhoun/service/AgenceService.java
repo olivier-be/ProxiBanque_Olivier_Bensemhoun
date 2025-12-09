@@ -1,14 +1,19 @@
 package com.example.proxibanque_olivier_bensemhoun.service;
 
+import com.example.proxibanque_olivier_bensemhoun.Response.AgenceResponse;
+import com.example.proxibanque_olivier_bensemhoun.Response.DirectorResponse;
+import com.example.proxibanque_olivier_bensemhoun.Response.EmployeeResponse;
 import com.example.proxibanque_olivier_bensemhoun.model.Agence;
 import com.example.proxibanque_olivier_bensemhoun.model.Client;
 import com.example.proxibanque_olivier_bensemhoun.model.Director;
 import com.example.proxibanque_olivier_bensemhoun.model.Employee;
 import com.example.proxibanque_olivier_bensemhoun.repository.AgenceRepo;
 import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -65,6 +70,21 @@ public class AgenceService {
              agenceRepo.save(res);
         }
         return t.isPresent();
+    }
+
+    @Transactional
+    public AgenceResponse AgenceResponse(Agence agence) {
+        var dir = new DirectorResponse();
+        if (agence.getDirector() != null) {
+            dir =  new DirectorResponse(agence.getDirector().getId(), agence.getDirector().getNom(), agence.getId());
+        }
+        else
+        {
+            dir = null;
+        }
+        var l = agence.getAdvisor().stream().map(advisor -> new EmployeeResponse(advisor.getId(), advisor.getNom(),advisor.getAgence().getId())).toList();
+        return new AgenceResponse(agence.getId(),agence.getAgenceId(),agence.getDate(), dir,
+                l);
     }
 
 

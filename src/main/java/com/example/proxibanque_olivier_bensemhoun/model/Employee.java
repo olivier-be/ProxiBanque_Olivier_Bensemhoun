@@ -1,10 +1,7 @@
 package com.example.proxibanque_olivier_bensemhoun.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +22,9 @@ public class Employee {
         this.nom = nom;
     }
 
-    @ManyToOne()
+    @ManyToOne
+    @JoinColumn(name = "advisor_id")
+
     private Agence agence;
 
 }

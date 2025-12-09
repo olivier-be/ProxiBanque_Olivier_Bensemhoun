@@ -21,8 +21,9 @@ public class Director {
         this.nom = nom;
     }
 
-    @OneToOne()
-    private Agence agence;
 
+
+    @OneToOne(mappedBy = "director")
+    private Agence agence;
 
 }
